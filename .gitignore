@@ -27,7 +27,6 @@ share/python-wheels/
 *.egg
 MANIFEST
 test.py
-request.json
 records/*
 .idea
 # PyInstaller

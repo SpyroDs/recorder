@@ -32,12 +32,12 @@ def stop_recording(rid):
             process.send_signal(signal.SIGINT)
             process.wait()
             # process.kill()
-            RECORDINGS[rid]["status"] = 'stopped'
-            return jsonify({'status': 'ok'})
+            RECORDINGS[rid]["cmd"] = 'STOP'
+            return jsonify({'status': 200})
         else:
-            return jsonify({'status': 'error', 'msg': 'Process already died'})
+            return jsonify({'status': 400, 'msg': 'Process already died'})
     else:
-        return jsonify({'status': 'error', 'msg': 'No process found in process list'})
+        return jsonify({'status': 404, 'msg': 'No process found in process list'})
 
 
 @app.route('/record/<path:rid>', methods=['DELETE'])
@@ -45,16 +45,22 @@ def delete_record(rid):
     try:
         shutil.rmtree(pathlib.Path(record_path(rid)))
     except FileNotFoundError:
-        return jsonify({'status': 'error', 'msg': 'Directory not found'})
+        return jsonify({'status': 404, 'msg': 'Directory not found'})
 
     if hasattr(RECORDINGS, rid):
         del RECORDINGS[rid]
 
-    return jsonify({'status': 'ok'})
+    return jsonify({'status': 204})
 
 
 @app.route('/record/<path:rid>', methods=['POST'])
 def create_record(rid):
+    if rid in RECORDINGS:
+        process = RECORDINGS[rid]['process']
+        poll = process.poll()
+        if poll is None:
+            return jsonify({'status': 400, 'msg': 'In progress'})
+
     data = request.get_json()
     validate(instance=data, schema=schema)
 
@@ -64,11 +70,12 @@ def create_record(rid):
 
     process = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
     RECORDINGS[rid] = {
-        "status": "new",
+        "cmd": "RECORD",
+        "source_url": data['source_url'],
         "process": process
     }
 
-    return jsonify({'status': 'ok'})
+    return jsonify({'status': 201})
 
 
 @app.route('/record/<path:dir_name>/<path:filename>', methods=['GET'])
@@ -78,6 +85,28 @@ def download(dir_name, filename):
     return send_from_directory(
         directory=d,
         path=filename)
+
+
+@app.route('/record/<path:rid>', methods=['GET'])
+def status(rid):
+    if rid not in RECORDINGS:
+        return jsonify({'status': 404})
+
+    rec = RECORDINGS[rid]
+    poll = rec['process'].poll()
+
+    alive = False
+    if poll is None:
+        alive = True
+
+    res = {
+        'id': rid,
+        'cmd': rec['cmd'],
+        'source_url': rec['source_url'],
+        'alive': alive,
+    }
+
+    return jsonify(res)
 
 
 if __name__ == "__main__":

@@ -9,6 +9,8 @@ def create_command(data, path):
     if "rtsp" in data:
         cmd.append('-rtsp_transport')
         cmd.append(data['rtsp']['rtsp_transport'])
+        cmd.append('-timeout')
+        cmd.append('5')
 
     if "strftime" in data and data['strftime']:
         cmd.append('-strftime')
