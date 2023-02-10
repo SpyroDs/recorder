@@ -3,10 +3,15 @@ import subprocess
 import signal
 import pathlib
 import shutil
+import re
 
 from flask import Flask, send_from_directory, request, jsonify
 from flask_restful import reqparse
 from flask_cors import CORS
+from flask_httpauth import HTTPBasicAuth
+from pathvalidate import sanitize_filename
+
+import argparse
 
 from cmd import create_command
 from schema import schema
@@ -14,17 +19,26 @@ from jsonschema import validate
 
 parser = reqparse.RequestParser()
 app = Flask(__name__)
+auth = HTTPBasicAuth()
+
+argParser = argparse.ArgumentParser()
+argParser.add_argument("-u", "--username", help="Username")
+argParser.add_argument("-p", "--password", help="Password")
+argParser.add_argument("-c", "--path", help="Content path", default="/var/www/static")
 
 CORS(app)
 RECORDINGS = {}
-CONTENT_PATH = "records"
+
+args = argParser.parse_args()
+CONTENT_PATH = args.path
 
 
 def record_path(rid):
-    return os.path.join(app.root_path, CONTENT_PATH) + "/" + rid
+    return CONTENT_PATH + "/" + rid
 
 
 @app.route('/record/<path:rid>/stop', methods=['POST'])
+@auth.login_required
 def stop_recording(rid):
     if rid in RECORDINGS:
         process = RECORDINGS[rid]["process"]
@@ -41,6 +55,7 @@ def stop_recording(rid):
 
 
 @app.route('/record/<path:rid>', methods=['DELETE'])
+@auth.login_required
 def delete_record(rid):
     try:
         shutil.rmtree(pathlib.Path(record_path(rid)))
@@ -54,6 +69,7 @@ def delete_record(rid):
 
 
 @app.route('/record/<path:rid>', methods=['POST'])
+@auth.login_required
 def create_record(rid):
     if rid in RECORDINGS:
         process = RECORDINGS[rid]['process']
@@ -79,15 +95,21 @@ def create_record(rid):
 
 
 @app.route('/record/<path:dir_name>/<path:filename>', methods=['GET'])
+@auth.login_required
 def download(dir_name, filename):
-    d = os.path.join(app.root_path, CONTENT_PATH, dir_name)
+    dir_name = re.sub(r"[^A-Fa-f0-9]+", '', dir_name)
+    filename = sanitize_filename(filename)
+
+    dir = os.path.join(CONTENT_PATH, dir_name) + "/" + filename
+    print(dir)
 
     return send_from_directory(
-        directory=d,
+        directory=os.path.join(CONTENT_PATH, dir_name),
         path=filename)
 
 
 @app.route('/record/<path:rid>', methods=['GET'])
+@auth.login_required
 def status(rid):
     if rid not in RECORDINGS:
         return jsonify({'status': 404})
@@ -109,7 +131,15 @@ def status(rid):
     return jsonify(res)
 
 
+@auth.verify_password
+def verify_password(username, password):
+    args = argParser.parse_args()
+
+    return username == args.username and password == args.password
+
+
 if __name__ == "__main__":
     # app.run(debug=True)
     from waitress import serve
+
     serve(app, host="127.0.0.1", port=5000)
