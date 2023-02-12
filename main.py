@@ -98,7 +98,7 @@ def create_record(rid):
 
 @app.route('/record/<path:dir_name>/<path:filename>', methods=['GET'])
 def download(dir_name, filename):
-    dir_name = re.sub(r"[^A-Fa-f0-9]+", '', dir_name)
+    dir_name = re.sub(r"[^A-Fa-f0-9\-]+", '', dir_name)
     filename = sanitize_filename(filename=filename, replacement_text=":", max_len=27)
 
     return send_from_directory(
