@@ -7,7 +7,7 @@ sudo tee /etc/systemd/system/recorder.service >/dev/null << EOF
 Wants=network.target
 Description=Video Recorder
 [Service]
-ExecStart=/usr/bin/python3 /usr/local/src/recorder/main.py -u test -p pass -c /var/records
+ExecStart=/usr/bin/python3 /usr/local/src/recorder/main.py -s 127.0.0.1 -r 5000 -u myuser -p mypass -c /var/records
 Restart=on-failure
 RestartSec=1s
 [Install]

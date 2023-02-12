@@ -30,10 +30,16 @@ schema = {
                     ]
                 },
                 "map": {
-                    "type": "string",
-                    "enum": [
-                        "0:v", "0:a", "a:0", "v:0"
-                    ]
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "0:v",
+                            "0:a",
+                            "a:0",
+                            "v:0",
+                        ]
+                    }
                 }
 
             }
@@ -67,7 +73,7 @@ schema = {
                             "second_level_segment_size",
                             "second_level_segment_duration",
                         ]
-                      },
+                    },
                 },
                 "hls_segment_type": {
                     "type": "string",

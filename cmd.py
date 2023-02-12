@@ -19,8 +19,9 @@ def create_command(data, path):
     if "mapping" in data:
         mapping = data['mapping']
         if "map" in mapping:
-            cmd.append('-map')
-            cmd.append(data['mapping']['map'])
+            for m in data['mapping']['map']:
+                cmd.append('-map')
+                cmd.append(m)
         if "c_a" in mapping:
             cmd.append('-c:a')
             cmd.append(data['mapping']['c_a'])
