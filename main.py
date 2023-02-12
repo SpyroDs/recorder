@@ -25,6 +25,8 @@ argParser = argparse.ArgumentParser()
 argParser.add_argument("-u", "--username", help="Username")
 argParser.add_argument("-p", "--password", help="Password")
 argParser.add_argument("-c", "--path", help="Content path", default="/var/www/static")
+argParser.add_argument("-h", "--host", help="Host to run", default="127.0.0.1")
+argParser.add_argument("-r", "--port", help="Port to run", default=5000)
 
 CORS(app)
 RECORDINGS = {}
@@ -98,10 +100,7 @@ def create_record(rid):
 @auth.login_required
 def download(dir_name, filename):
     dir_name = re.sub(r"[^A-Fa-f0-9]+", '', dir_name)
-    filename = sanitize_filename(filename)
-
-    dir = os.path.join(CONTENT_PATH, dir_name) + "/" + filename
-    print(dir)
+    filename = sanitize_filename(filename=filename, replacement_text=":", max_len=27)
 
     return send_from_directory(
         directory=os.path.join(CONTENT_PATH, dir_name),
@@ -142,4 +141,5 @@ if __name__ == "__main__":
     # app.run(debug=True)
     from waitress import serve
 
-    serve(app, host="127.0.0.1", port=5000)
+    args = argParser.parse_args()
+    serve(app, host=args.host, port=args.port)
