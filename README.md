@@ -1,7 +1,10 @@
 # Run:
+```shell
 /usr/local/bin/python3.9 /path/to/main.py -u test -p pass -c /var/records
+```
 
 # Boot on start and reload on fails
+```
 sudo tee /etc/systemd/system/recorder.service >/dev/null << EOF
 [Unit]
 Wants=network.target
@@ -13,10 +16,13 @@ RestartSec=1s
 [Install]
 WantedBy=multi-user.target
 EOF
+```
 
+```
 sudo systemctl daemon-reload
 sudo systemctl enable recorder
 sudo systemctl start recorder
+```
 
 # POST
 ```json
