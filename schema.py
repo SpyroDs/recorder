@@ -13,6 +13,7 @@ schema = {
             "pattern": "^(rtsp|rtsps|http|https)?://",
         },
         "strftime": {"type": "boolean"},
+        "vsync": {"type": "number"},
         "mapping": {
             "additionalProperties": False,
             "properties": {

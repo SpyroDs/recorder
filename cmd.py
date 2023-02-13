@@ -6,6 +6,10 @@ def create_command(data, path):
         data["source_url"],
     ]
 
+    if "vsync" in data:
+        cmd.append('-vsync')
+        cmd.append(str(data['vsync']))
+
     if "rtsp" in data:
         cmd.append('-rtsp_transport')
         cmd.append(data['rtsp']['rtsp_transport'])
