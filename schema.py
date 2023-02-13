@@ -27,7 +27,9 @@ schema = {
                 "c_v": {
                     "type": "string",
                     "enum": [
-                        "copy"
+                        "copy",
+                        "h264",
+                        "h265",
                     ]
                 },
                 "map": {
