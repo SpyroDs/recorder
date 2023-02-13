@@ -79,7 +79,7 @@ schema = {
                 },
                 "hls_segment_type": {
                     "type": "string",
-                    "enum": ["fmp4", "hls"]
+                    "enum": ["fmp4", "mpegts"]
                 }
             },
 
