@@ -13,7 +13,16 @@ schema = {
             "pattern": "^(rtsp|rtsps|http|https)?://",
         },
         "strftime": {"type": "boolean"},
-        "vsync": {"type": "number"},
+        "fps_mode": {
+            "type": "string",
+            "enum": [
+                "passthrough",
+                "cfr",
+                "vfr",
+                "drop",
+                "auto"
+            ]
+        },
         "mapping": {
             "additionalProperties": False,
             "properties": {

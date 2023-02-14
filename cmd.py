@@ -2,19 +2,21 @@ def create_command(data, path):
     cmd = [
         "ffmpeg",
         "-y",
-        "-i",
-        data["source_url"],
     ]
-
-    if "vsync" in data:
-        cmd.append('-vsync')
-        cmd.append(str(data['vsync']))
 
     if "rtsp" in data:
         cmd.append('-rtsp_transport')
         cmd.append(data['rtsp']['rtsp_transport'])
-        cmd.append('-timeout')
-        cmd.append('5')
+
+    cmd.append('-timeout')
+    cmd.append('5')
+
+    cmd.append('-i')
+    cmd.append(data["source_url"])
+
+    if "fps_mode" in data:
+        cmd.append('-fps_mode')
+        cmd.append(data['fps_mode'])
 
     if "strftime" in data and data['strftime']:
         cmd.append('-strftime')
