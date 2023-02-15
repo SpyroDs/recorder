@@ -7,6 +7,9 @@ def create_command(data, path):
     if "rtsp" in data:
         cmd.append('-rtsp_transport')
         cmd.append(data['rtsp']['rtsp_transport'])
+        if "rtbufsize" in data['rtsp']:
+            cmd.append('-rtbufsize')
+            cmd.append(data['rtsp']['rtbufsize'])
 
     if "timeout" in data:
         cmd.append('-timeout')
@@ -23,6 +26,10 @@ def create_command(data, path):
         cmd.append('-strftime')
         cmd.append('1')
 
+    if "analyzeduration" in data:
+        cmd.append('-analyzeduration')
+        cmd.append(str(data['analyzeduration']))
+
     if "mapping" in data:
         mapping = data['mapping']
         if "map" in mapping:
@@ -35,6 +42,10 @@ def create_command(data, path):
         if "c_v" in mapping:
             cmd.append('-c:v')
             cmd.append(data['mapping']['c_v'])
+
+    if "vprofile" in data:
+        cmd.append('-vprofile')
+        cmd.append(data['vprofile'])
 
     if "hls" in data:
         hls = data['hls']

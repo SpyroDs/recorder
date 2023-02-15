@@ -42,8 +42,22 @@ schema = {
                         "copy",
                         "h264",
                         "h265",
+                        "libx264",
                     ]
                 },
+                "analyzeduration": {
+                    "type": "number"
+                },
+                "vprofile": {
+                    "type": "string",
+                    "enum": [
+                        "high",
+                        "unknown",
+                        "main",
+                        "baseline"
+                    ]
+                },
+
                 "map": {
                     "type": "array",
                     "items": {
@@ -106,6 +120,16 @@ schema = {
                 "rtsp_transport": {
                     "type": "string",
                     "enum": ["tcp", "udp"]
+                },
+                "rtbufsize": {
+                    "type": "string",
+                    "enum": [
+                        "100M",
+                        "200M",
+                        "500M",
+                        "1G",
+                        "2G",
+                    ]
                 },
             },
         },
