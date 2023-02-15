@@ -26,6 +26,18 @@ schema = {
         "timeout": {
             "type": "number",
         },
+        "analyzeduration": {
+            "type": "number"
+        },
+        "vprofile": {
+            "type": "string",
+            "enum": [
+                "high",
+                "unknown",
+                "main",
+                "baseline"
+            ]
+        },
         "mapping": {
             "additionalProperties": False,
             "properties": {
@@ -43,18 +55,6 @@ schema = {
                         "h264",
                         "h265",
                         "libx264",
-                    ]
-                },
-                "analyzeduration": {
-                    "type": "number"
-                },
-                "vprofile": {
-                    "type": "string",
-                    "enum": [
-                        "high",
-                        "unknown",
-                        "main",
-                        "baseline"
                     ]
                 },
 

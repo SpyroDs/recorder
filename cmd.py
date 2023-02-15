@@ -70,7 +70,7 @@ def create_command(data, path):
             cmd.append(hls['hls_segment_type'])
 
         cmd.append('-hls_segment_filename')
-        cmd.append(path + "/%Y-%m-%dT%H:%M:%S%z.ts")
+        cmd.append(path + "/%Y-%m-%dT%H:%M:%S%z.m4s")
 
         cmd.append(path + "/index.m3u8")
 
