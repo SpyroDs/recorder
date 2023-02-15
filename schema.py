@@ -23,6 +23,9 @@ schema = {
                 "auto"
             ]
         },
+        "timeout": {
+            "type": "number",
+        },
         "mapping": {
             "additionalProperties": False,
             "properties": {

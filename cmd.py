@@ -8,8 +8,9 @@ def create_command(data, path):
         cmd.append('-rtsp_transport')
         cmd.append(data['rtsp']['rtsp_transport'])
 
-    cmd.append('-timeout')
-    cmd.append('5')
+    if "timeout" in data:
+        cmd.append('-timeout')
+        cmd.append(str(data['timeout']))
 
     cmd.append('-i')
     cmd.append(data["source_url"])
