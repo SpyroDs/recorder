@@ -15,6 +15,10 @@ def create_command(data, path):
         cmd.append('-timeout')
         cmd.append(str(data['timeout']))
 
+    if "err_detect" in data:
+        cmd.append('-err_detect')
+        cmd.append(data['err_detect'])
+
     cmd.append('-i')
     cmd.append(data["source_url"])
 
@@ -48,6 +52,7 @@ def create_command(data, path):
         cmd.append(data['vprofile'])
 
     if "hls" in data:
+        segment_ext = 'ts'
         hls = data['hls']
 
         cmd.append('-f')
@@ -68,9 +73,11 @@ def create_command(data, path):
         if "hls_segment_type" in hls:
             cmd.append('-hls_segment_type')
             cmd.append(hls['hls_segment_type'])
+            if hls['hls_segment_type'] == 'fmp4':
+                segment_ext = 'm4s'
 
         cmd.append('-hls_segment_filename')
-        cmd.append(path + "/%Y-%m-%dT%H:%M:%S%z.m4s")
+        cmd.append(path + "/segm%03d." + segment_ext)
 
         cmd.append(path + "/index.m3u8")
 
