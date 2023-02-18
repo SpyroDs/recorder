@@ -58,7 +58,6 @@ schema = {
                         "libx265",
                     ]
                 },
-
                 "map": {
                     "type": "array",
                     "items": {
@@ -75,6 +74,45 @@ schema = {
                 }
 
             }
+        },
+        # -f segment  -strftime 1  -segment_list_type flat -segment_time 60 -segment_list_size 0  -segment_list
+        # segment_list.txt  -segment_format mp4  segment_%Y-%m-%d_%H-%M-%S.mp4
+        "segment": {
+            "additionalProperties": False,
+            "properties": {
+                "segment_format": {
+                    "type": "string",
+                    "enum": [
+                        "mp4",
+                        "mkv",
+                        "mp3",
+                        "aac"
+                    ]
+                },
+                "segment_list": {
+                    "type": "string",
+                    "pattern": "^([a-zA-Z0-9\\_])+\\.([0-9a-z]){2,4}$",
+                },
+                "segment_file": {
+                    "type": "string",
+                    "pattern": "^([a-zA-Z0-9\\%\\-\\_])+\\.([0-9a-z]){2,4}$",
+                },
+                "segment_list_type": {
+                    "type": "string",
+                    "enum": [
+                        "flat",
+                        "csv, ext",
+                        "ffconcat",
+                        "m3u8",
+                    ]
+                },
+                "segment_time": {
+                    "type": "number"
+                },
+                "segment_list_size": {
+                    "type": "number"
+                }
+            },
         },
         "hls": {
             "additionalProperties": False,

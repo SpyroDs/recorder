@@ -1,0 +1,14 @@
+{
+    "source_url": "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4",
+    "segment": {
+        "segment_list": "index.m3u8",
+        "segment_list_type": "m3u8",
+        "segment_time": 30,
+        "segment_list_size": 10,
+        "segment_file": "segment_%Y-%m-%dT%H_%M_%S.mp4"
+    },
+    "strftime": true,
+    "rtsp": {
+        "rtsp_transport": "tcp"
+    }
+}

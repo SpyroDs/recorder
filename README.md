@@ -19,31 +19,9 @@ EOF
 ```
 
 ```
-sudo systemctl daemon-reload
+sudo systemctl daemon-reload &
 sudo systemctl enable recorder
 sudo systemctl start recorder
-```
 
-# POST
-```json
-{
-    "source_url": "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4",
-    "hls": {
-        "hls_time": 10,
-        "hls_list_size": 0,
-        "hls_flags": [
-            "independent_segments"
-        ],
-        "hls_segment_type": "fmp4"
-    },
-    "strftime": true,
-    "mapping": {
-        "map": "0:v",
-        "c_a": "aac",
-        "c_v": "copy"
-    },
-    "rtsp": {
-        "rtsp_transport": "tcp"
-    }
-}
+sudo systemctl daemon-reload & sudo systemctl restart recorder
 ```

@@ -51,6 +51,48 @@ def create_command(data, path):
         cmd.append('-vprofile')
         cmd.append(data['vprofile'])
 
+    if "segment" in data:
+        segment = data['segment']
+
+        cmd.append('-f')
+        cmd.append('segment')
+
+        # format
+        cmd.append('-segment_format')
+        if "segment_format" in segment:
+            cmd.append(segment['segment_format'])
+        else:
+            cmd.append('mp4')
+
+        # type
+        cmd.append('-segment_list_type')
+        if "segment_list_type" in segment:
+            cmd.append(segment['segment_list_type'])
+        else:
+            cmd.append('m3u8')
+
+        # size
+        cmd.append('-segment_list_size')
+        if "segment_list_size" in segment:
+            cmd.append(str(segment['segment_list_size']))
+        else:
+            cmd.append('10')
+
+        # segment duration
+        if "segment_time" in segment:
+            cmd.append('-segment_time')
+            cmd.append(str(segment['segment_time']))
+
+        # list file name
+        cmd.append('-segment_list')
+        if "segment_list" in segment:
+            cmd.append(path + "/" + segment['segment_list'])
+        else:
+            cmd.append('index.m3u8')
+
+        # output file
+        cmd.append(path + "/" + segment['segment_file'])
+
     if "hls" in data:
         segment_ext = 'ts'
         hls = data['hls']
