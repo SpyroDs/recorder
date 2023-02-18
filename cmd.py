@@ -4,6 +4,10 @@ def create_command(data, path):
         "-y",
     ]
 
+    if "loglevel" in data:
+        cmd.append('-loglevel')
+        cmd.append(data['loglevel'])
+
     if "rtsp" in data:
         cmd.append('-rtsp_transport')
         cmd.append(data['rtsp']['rtsp_transport'])
@@ -122,6 +126,7 @@ def create_command(data, path):
         cmd.append(path + "/%Y-%m-%dT%H_%M_%S." + segment_ext)
 
         cmd.append(path + "/index.m3u8")
+
 
     return cmd
 

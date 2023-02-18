@@ -1,5 +1,6 @@
 {
     "source_url": "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4",
+    "loglevel": "info",
     "hls": {
         "hls_time": 10,
         "hls_list_size": 0,

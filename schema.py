@@ -75,8 +75,19 @@ schema = {
 
             }
         },
-        # -f segment  -strftime 1  -segment_list_type flat -segment_time 60 -segment_list_size 0  -segment_list
-        # segment_list.txt  -segment_format mp4  segment_%Y-%m-%d_%H-%M-%S.mp4
+        "loglevel": {
+            "type": "string",
+            "enum": [
+                "quiet",
+                "panic",
+                "fatal",
+                "warning",
+                "info",
+                "verbose",
+                "debug",
+                "trace",
+            ]
+        },
         "segment": {
             "additionalProperties": False,
             "properties": {

@@ -47,6 +47,7 @@ def stop_recording(rid):
         if process:
             process.send_signal(signal.SIGINT)
             process.wait()
+            # RECORDINGS[rid]['logfile'].flush()
             # process.kill()
             RECORDINGS[rid]["cmd"] = 'STOP'
             return jsonify({'status': 200})
@@ -86,11 +87,16 @@ def create_record(rid):
     os.makedirs(path, mode=0o775, exist_ok=True)
     command = create_command(data, path)
 
-    process = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+    logfile = open(path + '/logfile.txt', "w")
+    process = subprocess.Popen(command,
+                               stdin=subprocess.PIPE,
+                               stdout=logfile,
+                               stderr=logfile)
     RECORDINGS[rid] = {
         "cmd": "RECORD",
         "source_url": data['source_url'],
-        "process": process
+        "process": process,
+        # "logfile": logfile,
     }
 
     return jsonify({'status': 201})
@@ -124,6 +130,7 @@ def status(rid):
         'cmd': rec['cmd'],
         'source_url': rec['source_url'],
         'alive': alive,
+        'poll': str(rec['process'].stdout.read())
     }
 
     return jsonify(res)
