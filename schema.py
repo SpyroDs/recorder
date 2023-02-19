@@ -7,6 +7,22 @@ schema = {
     ],
     "properties": {
         "additionalProperties": False,
+        "restream": {
+            "additionalProperties": False,
+            "required": [
+                "path",
+                "port"
+            ],
+            "properties": {
+                "path": {
+                    "type": "string",
+                    "pattern": "^([a-zA-Z0-9\\-\\_]){5,40}$",
+                },
+                "port": {
+                    "type": "number"
+                }
+            }
+        },
         "source_url": {
             "format": "uri",
             "type": "string",

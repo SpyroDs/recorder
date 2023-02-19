@@ -47,8 +47,9 @@ def stop_recording(rid):
         if process:
             process.send_signal(signal.SIGINT)
             process.wait()
-            # RECORDINGS[rid]['logfile'].flush()
             # process.kill()
+            # for child_proc in process.children(recursive=True):
+            #     child_proc.kill()
             RECORDINGS[rid]["cmd"] = 'STOP'
             return jsonify({'status': 200})
         else:
@@ -137,10 +138,10 @@ def status(rid):
 
 
 @auth.verify_password
-def verify_password(username, password):
-    args = argParser.parse_args()
+def __verify_password(username, password):
+    arguments = argParser.parse_args()
 
-    return username == args.username and password == args.password
+    return username == arguments.username and password == arguments.password
 
 
 if __name__ == "__main__":

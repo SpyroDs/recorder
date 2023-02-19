@@ -1,6 +1,10 @@
 {
     "source_url": "rtsp://wowzaec2demo.streamlock.net/vod/mp4:BigBuckBunny_115k.mp4",
     "loglevel": "info",
+    "restream": {
+        "path": "my_best_path-123",
+        "port": 8554
+    },
     "segment": {
         "segment_list": "index.m3u8",
         "segment_list_type": "m3u8",

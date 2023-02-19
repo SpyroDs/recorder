@@ -127,6 +127,15 @@ def create_command(data, path):
 
         cmd.append(path + "/index.m3u8")
 
+    if "restream" in data:
+        cmd.append('-f')
+        cmd.append('rtsp')
+        cmd.append('-rtsp_transport')
+        cmd.append('tcp')
+        cmd.append('rtsp://127.0.0.1:'
+                   + str(data['restream']['port'])
+                   + '/'
+                   + data['restream']['path'])
 
     return cmd
 
