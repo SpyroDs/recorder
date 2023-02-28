@@ -138,7 +138,10 @@ schema = {
                 },
                 "segment_list_size": {
                     "type": "number"
-                }
+                },
+                "segment_wrap": {
+                    "type": "number"
+                },
             },
         },
         "hls": {

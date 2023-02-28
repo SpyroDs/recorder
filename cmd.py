@@ -68,6 +68,10 @@ def create_command(data, path):
         else:
             cmd.append('mp4')
 
+        if "segment_wrap" in segment:
+            cmd.append('-segment_wrap')
+            cmd.append(segment['segment_wrap'])
+
         # type
         cmd.append('-segment_list_type')
         if "segment_list_type" in segment:
