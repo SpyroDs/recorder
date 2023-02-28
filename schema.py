@@ -54,7 +54,7 @@ schema = {
                 "baseline"
             ]
         },
-        "mapping": {
+        "codecs": {
             "additionalProperties": False,
             "properties": {
                 "c_a": {
@@ -74,6 +74,11 @@ schema = {
                         "libx265",
                     ]
                 },
+            }
+        },
+        "mapping": {
+            "additionalProperties": False,
+            "properties": {
                 "map": {
                     "type": "array",
                     "items": {
