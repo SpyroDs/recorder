@@ -73,7 +73,13 @@ def create_command(data, path):
 
         if "segment_wrap" in segment:
             cmd.append('-segment_wrap')
-            cmd.append(segment['segment_wrap'])
+            cmd.append(str(segment['segment_wrap']))
+        if "reset_timestamps" in segment:
+            cmd.append('-reset_timestamps')
+            cmd.append(str(segment['reset_timestamps']))
+        if "write_empty_segments" in segment:
+            cmd.append('-write_empty_segments')
+            cmd.append(str(segment['write_empty_segments']))
 
         # type
         cmd.append('-segment_list_type')
