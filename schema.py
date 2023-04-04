@@ -54,7 +54,7 @@ schema = {
                 "baseline"
             ]
         },
-        "mapping": {
+        "codecs": {
             "additionalProperties": False,
             "properties": {
                 "c_a": {
@@ -74,6 +74,11 @@ schema = {
                         "libx265",
                     ]
                 },
+            }
+        },
+        "mapping": {
+            "additionalProperties": False,
+            "properties": {
                 "map": {
                     "type": "array",
                     "items": {
@@ -124,6 +129,12 @@ schema = {
                     "type": "string",
                     "pattern": "^([a-zA-Z0-9\\%\\-\\_])+\\.([0-9a-z]){2,4}$",
                 },
+                "reset_timestamps": {
+                    "type": "number"
+                },
+                "write_empty_segments": {
+                    "type": "number"
+                },
                 "segment_list_type": {
                     "type": "string",
                     "enum": [
@@ -138,7 +149,10 @@ schema = {
                 },
                 "segment_list_size": {
                     "type": "number"
-                }
+                },
+                "segment_wrap": {
+                    "type": "number"
+                },
             },
         },
         "hls": {

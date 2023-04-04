@@ -41,15 +41,18 @@ def create_command(data, path):
     if "mapping" in data:
         mapping = data['mapping']
         if "map" in mapping:
-            for m in data['mapping']['map']:
+            for m in mapping['map']:
                 cmd.append('-map')
                 cmd.append(m)
-        if "c_a" in mapping:
+
+    if "codecs" in data:
+        codecs = data['codecs']
+        if "c_a" in codecs:
             cmd.append('-c:a')
-            cmd.append(data['mapping']['c_a'])
-        if "c_v" in mapping:
+            cmd.append(codecs['c_a'])
+        if "c_v" in codecs:
             cmd.append('-c:v')
-            cmd.append(data['mapping']['c_v'])
+            cmd.append(codecs['c_v'])
 
     if "vprofile" in data:
         cmd.append('-vprofile')
@@ -67,6 +70,16 @@ def create_command(data, path):
             cmd.append(segment['segment_format'])
         else:
             cmd.append('mp4')
+
+        if "segment_wrap" in segment:
+            cmd.append('-segment_wrap')
+            cmd.append(str(segment['segment_wrap']))
+        if "reset_timestamps" in segment:
+            cmd.append('-reset_timestamps')
+            cmd.append(str(segment['reset_timestamps']))
+        if "write_empty_segments" in segment:
+            cmd.append('-write_empty_segments')
+            cmd.append(str(segment['write_empty_segments']))
 
         # type
         cmd.append('-segment_list_type')
