@@ -47,9 +47,9 @@ def stop_recording(rid):
         if process:
             process.send_signal(signal.SIGINT)
             process.wait()
-            # process.kill()
-            # for child_proc in process.children(recursive=True):
-            #     child_proc.kill()
+            process.kill()
+            for child_proc in process.children(recursive=True):
+                child_proc.kill()
             RECORDINGS[rid]["cmd"] = 'STOP'
             return jsonify({'status': 200})
         else:
